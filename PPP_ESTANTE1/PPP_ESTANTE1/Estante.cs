@@ -22,6 +22,13 @@ namespace PPP_ESTANTE1
             this._capacidad = capacidad;
         }
 
+        public float ValorEstanteTotal
+        {
+            get {
+                return this.GetValorEstante();
+            }
+        }
+
         public List<Producto> GetProductos()
         {
             return this._productos;
@@ -33,8 +40,15 @@ namespace PPP_ESTANTE1
 
             foreach (var item in est.GetProductos())
             {
-                str.AppendLine()
+                if (item is Gaseosa)
+                    str.AppendLine(((Gaseosa)item).MostrarGaseosa());
+                if (item is Jugo)
+                    str.AppendLine(((Jugo)item).MostrarJugo());
+                if(item is Galletita)
+                    str.AppendLine(Galletita.MostrarGalletita(((Galletita)item)));
             }
+
+            return str.ToString();
         }
 
         public static bool operator ==(Estante estante, Producto prod)
@@ -61,8 +75,11 @@ namespace PPP_ESTANTE1
 
         public static bool operator +(Estante est, Producto prod)
         {
-            if (est._productos.Count < est._capacidad && est == prod)
+            if (est._productos.Count < est._capacidad && (!(est == prod)))
+            {
+                est._productos.Add(prod);
                 return true;
+            }
 
             return false;
         }
@@ -100,10 +117,22 @@ namespace PPP_ESTANTE1
             {
                 if (item.GetType().ToString() == tipo.ToString())
                 {
-                    total = (float)item.precio;
+                    total += (float)item.precio;
                 }
             }
             
+            return total;
+        }
+
+        private float GetValorEstante()
+        {
+            float total = 0;
+
+            foreach (var item in this.GetProductos())
+            {
+                total += item.precio;
+            }
+
             return total;
         }
     }

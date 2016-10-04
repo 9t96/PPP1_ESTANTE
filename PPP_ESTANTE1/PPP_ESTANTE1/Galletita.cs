@@ -23,7 +23,7 @@ namespace PPP_ESTANTE1
             str.AppendLine(Producto.MostrarProducto(galleta));
             str.AppendLine("Peso: " + galleta._peso);
 
-            str.ToString();
+            return str.ToString();
         }
     }
 }
