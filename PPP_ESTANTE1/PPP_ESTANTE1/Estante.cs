@@ -38,6 +38,11 @@ namespace PPP_ESTANTE1
         {
             StringBuilder str = new StringBuilder();
 
+            str.AppendLine("Contenido estante: ");
+            str.AppendLine("Capacidad: " + est._capacidad);
+            str.AppendLine("Valor total estante: " + est.ValorEstanteTotal);
+
+
             foreach (var item in est.GetProductos())
             {
                 if (item is Gaseosa)
@@ -97,31 +102,54 @@ namespace PPP_ESTANTE1
 
         public static Estante operator -(Estante est, ETipoProducto tipo)
         {
-            Estante estante=est;
-            foreach (var item in est.GetProductos())
+            List<Producto> lista = est._productos;
+            for (int i = 0; i < lista.Count; i++)
             {
-                if (item.GetType().ToString() != tipo.ToString())
+                if (tipo == ETipoProducto.Galletita && (lista[i] is Galletita))
                 {
-                    estante._productos.Remove(item);
+                    lista.Remove(lista[i]);
+                }
+                else if (tipo == ETipoProducto.Gaseosa && (lista[i] is Gaseosa))
+                {
+                    lista.Remove(lista[i]);
+                }
+                else if (tipo == ETipoProducto.Jugo && (lista[i] is Jugo))
+                {
+                    lista.Remove(lista[i]);
+                }
+                else
+                {
+                    if (tipo == ETipoProducto.Todos)
+                    {
+                        lista.Clear();
+                    }
                 }
             }
-
-            return estante;
+            return est;
         }
 
         public float GetValorEstante(ETipoProducto tipo)
         {
             float total = 0;
 
-            foreach (var item in this.GetProductos())
+            foreach (Producto item in this._productos)
             {
-                if (item.GetType().ToString() == tipo.ToString())
+                if (tipo == ETipoProducto.Jugo && item is Jugo)
                 {
-                    total += (float)item.precio;
+                    total += item.precio;
+                }
+                else if (tipo == ETipoProducto.Galletita && item is Galletita)
+                {
+                    total += item.precio;
+
+                }
+                else if (tipo == ETipoProducto.Gaseosa && item is Gaseosa)
+                {
+                    total += item.precio;
                 }
             }
-            
-            return total;
+
+                    return total;
         }
 
         private float GetValorEstante()

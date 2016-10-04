@@ -58,7 +58,7 @@ namespace PPP_ESTANTE1
             est1.GetProductos().Sort(Program.OrdenarProductos);
             Console.WriteLine(Estante.MostrarEstante(est1));
 
-
+            Console.WriteLine("-------------SACO GALLETITAS------------");
             est1 = est1 - ETipoProducto.Galletita;
             Console.WriteLine(Estante.MostrarEstante(est1));
 
